@@ -1,0 +1,18 @@
+-data = data || {}
+div(class= 'input')
+  h1 Comentário:
+  form(action="." method="POST" class="formulario")
+    textarea(
+      type="text"
+      id="texto"
+      name="texto"
+      class="campo-txt"
+      value=data.texto
+      )
+
+    input(
+        type="submit"
+        value="Cadastrar"
+        class="btn"
+
+      )

@@ -1,0 +1,23 @@
+div(class="view")
+
+  h1 Comentarios:
+  //p(id="demo") texto de teste
+  - var i = 0
+  div(class="comBox")
+    if comentarios.length
+      each comentario in comentarios
+        - i++
+        p(id="p"+i)= comentario.dataValues.texto
+                
+        input(
+          onclick="playAudio(this.id)"
+          type="submit"
+          value="Ouvir"
+          class="ouvir"
+          id="btn"+i
+
+        )
+
+    else
+      p Nenhum comentário registrado ainda
+  
