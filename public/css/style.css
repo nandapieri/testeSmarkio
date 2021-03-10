@@ -73,3 +73,8 @@ p {
   display: inline-block;
   width: 50px;
 }
+
+
+audio {
+  visibility: hidden;
+}

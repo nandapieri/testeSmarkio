@@ -4,27 +4,34 @@
 
 function playAudio(clicked_id) {
 
-  //cria a requisição
-  var req = new XMLHttpRequest();
-  req.open("POST", "/speech", true);
-  req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   //busca o texto a ser enviado na pagina
   var i = clicked_id.substring(3);
   var texto = document.getElementById("p"+i).innerHTML
 
-  //envia a requisição com o texto
-  req.send('texto='+texto);
-
-  //recebe o audio de resposta e toca o mesmo.
-
-  //var audio = new Audio('');
-  //audio.play(req.response);
-  if (req.status == 200) {
-      alert('entrei');
-      //audio.play(req.response);
+  //cria os dados para a requisição
+  let fetchData = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({'texto':texto})
   }
 
-  alert(req.status);
+  //faz a requisição e aguarda uma resposta
+  fetch("/speech",fetchData)
+    .then(function(res){
 
+      var audio = new Audio('/audio');
+      audio.play(audio);
+      //alert(res.status);
+    });
+
+  /*fetch("/delete")
+    .then ( (res) => {
+      alert(res.status);
+    });
+*/
+  //window.location.reload(true);
 }
