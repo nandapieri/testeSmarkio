@@ -2,7 +2,7 @@
   Conexão com o IBM Watson
 */
 
-exports.synthesize_audio =  async function synthesize_audio(text, mp3Path) {
+exports.synthesize_audio = async function synthesize_audio(text, mp3Path) {
     const fs = require('fs');
 
     const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1-generated');

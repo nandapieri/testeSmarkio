@@ -4,7 +4,6 @@
 
 function playAudio(clicked_id) {
 
-
   //busca o texto a ser enviado na pagina
   var i = clicked_id.substring(3);
   var texto = document.getElementById("p"+i).innerHTML
@@ -16,22 +15,16 @@ function playAudio(clicked_id) {
       'Accept': 'application/json'
     },
     method: 'POST',
-    body: JSON.stringify({'texto':texto})
+    body: JSON.stringify({'texto':texto, 'id':i})
   }
 
-  //faz a requisição e aguarda uma resposta
+  //faz a requisição do audio
   fetch("/speech",fetchData)
     .then(function(res){
-
-      var audio = new Audio('/audio');
+      //toca o audio gerado
+      var audio = new Audio('http://localhost:5000/audio?id='+i);
       audio.play(audio);
-      //alert(res.status);
+      //alert('oi');
     });
 
-  /*fetch("/delete")
-    .then ( (res) => {
-      alert(res.status);
-    });
-*/
-  //window.location.reload(true);
 }

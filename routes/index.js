@@ -9,9 +9,7 @@ const router = express.Router();
 
 //conecta com o banco de dados
 (async () => {
-
     const database = require('../db');
-
     try {
         const resultado = await database.sync();
         console.log('conectado');
@@ -21,13 +19,16 @@ const router = express.Router();
     }
 })();
 
-/*ROTAS*/
 
+/*ROTAS*/
+//rota do root - testes
 router.get('/', (req, res) => {
   res.render('form', { title: 'Comentarios' });
 });
 
+//pagina inicial do desafio
 router.get('/desafio', (req, res) => {
+  //busca a lista de comentários no banco de dados para exibir
   const Comentario = require('../models/comentario');
   const comentarios = Comentario.findAll({ order: [['id', 'DESC']] })
     .then((comentarios) => {
@@ -62,7 +63,6 @@ router.post('/',
       else {
         dialog.err('Seu comentário excedeu o numero de caracteres permitido');
       }
-      //res.render('form', { title: 'Comentarios' });
     } else {
       dialog.err('Por favor, digite um comentario antes de enviar');
 
@@ -70,74 +70,37 @@ router.post('/',
   }
 );
 
+//rota da conversão de texto para audio
 require('dotenv/config');
 router.post("/speech", async function(req, res) {
    const fs = require('fs');
-   const url = require('url');
    const watson = require ('../watson');
    var input;
    input = req.body.texto;
+   var id = req.body.id;
 
+   //faz a conversão do texto para audio
    console.log("req: "+input);
-   const result = await watson.synthesize_audio(input, 'audio/speech.mp3')
-    .then(() => {
-      console.log('teste');
-      //const sound = require("sound-play");
-      //sound.play("audio.mp3");
-    })
+   const result = await watson.synthesize_audio(input, 'audio/speech'+id+'.mp3')
 
-    var returnData = {};
-
-    fs.readFile('audio/speech.mp3', function(err, file){
+   //manda a resposta do POST
+   var returnData = {};
+   fs.readFile('audio/speech'+id+'.mp3', function(err, file){
         var base64File = new Buffer(file, 'binary').toString('base64');
-
         returnData.fileContent = base64File;
-
         res.json(returnData);
     });
 
-/*
-    var filePath = 'audio/audio.mp3'
-    fs.exists(filePath, function(exists){
-      if (exists) {
-        /*res.writeHead(200, {
-          "Content-Type": "text/plain"
-          //"Content-Type": "audio/mp3",
-          //"Content-Disposition": "attachment; filename="+filePath
-        });
-
-        var myUrl = url.pathToFileURL('audio/audio.mp3');
-        console.log(myUrl.href)
-        res.send(myUrl.href);
-
-        //fs.createReadStream(filePath).pipe(res);
-        //console.log(res.get('Content-Disposition'));
-      } else {
-        res.writeHead(400, {"Content-Type": "text/plain"});
-        res.end("ERROR File does not exist");
-      }
-    });
-*/
-   //res.attachment('audio.mp3');
-   //res.contentType("audio/mp3");
-   //res.status(200).send(result);
-
  });
- //rota para acessar a pasta audio
+
+ //rota para acessar a pasta audio onde ficam os audios renderizados
   router.get('/audio', (req, res) => {
-    res.sendfile('audio/speech.mp3')
-    //res.redirect('/desafio');
+
+    var queryString = req.protocol + '://' + req.get('host') + req.originalUrl;
+    const urlParams = new URLSearchParams(queryString.replace('?','&'));
+    const id = urlParams.get('id')
+    res.sendfile('audio/speech'+id+'.mp3')
+
   });
-
-
-  router.get('/delete', (req, res) => {
-    //apagar o arquivo ao ser tocado
-    const fs = require('fs');
-    fs.unlink('audio/speech.mp3', (err) => {
-      if (err) throw err;
-      console.log('audio/speech.mp3 was deleted');
-    });
-  });
-
 
 module.exports = router;
