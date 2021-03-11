@@ -103,4 +103,23 @@ router.post("/speech", async function(req, res) {
 
   });
 
+//limpa a pasta audio
+  function deleteAll() {
+    const fs = require('fs');
+    const path = require('path');
+
+    const directory = 'audio';
+
+    fs.readdir(directory, (err, files) => {
+      if (err) throw err;
+
+      for (const file of files) {
+        fs.unlink(path.join(directory, file), err => {
+          if (err) throw err;
+        });
+      }
+    });
+  }
+
+
 module.exports = router;

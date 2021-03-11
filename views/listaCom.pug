@@ -2,12 +2,12 @@ div(class="view")
 
   h1 Comentarios:
   //p(id="demo") texto de teste
-  - var i = 0
+  - var i = comentarios.length
   
   div(class="comBox")
     if comentarios.length
       each comentario in comentarios
-        - i++
+        - i--
         p(id="p"+i)= comentario.dataValues.texto
                 
         input(
