@@ -78,14 +78,18 @@ router.post("/speech", async function(req, res) {
    var input;
    input = req.body.texto;
    var id = req.body.id;
+   var path = 'audio/speech'+id+'.mp3';
 
-   //faz a conversão do texto para audio
-   console.log("req: "+input);
-   const result = await watson.synthesize_audio(input, 'audio/speech'+id+'.mp3')
-
+   //verifica se o arquivo já existe. se não existir, chama a conversão
+   if (!fs.existsSync(path)) {
+     //faz a conversão do texto para audio
+     console.log("req: "+input);
+     const result = await watson.synthesize_audio(input, path)
+    }
+    
    //manda a resposta do POST
    var returnData = {};
-   fs.readFile('audio/speech'+id+'.mp3', function(err, file){
+   fs.readFile(path, function(err, file){
         var base64File = new Buffer(file, 'binary').toString('base64');
         returnData.fileContent = base64File;
         res.json(returnData);
@@ -99,7 +103,8 @@ router.post("/speech", async function(req, res) {
     var queryString = req.protocol + '://' + req.get('host') + req.originalUrl;
     const urlParams = new URLSearchParams(queryString.replace('?','&'));
     const id = urlParams.get('id')
-    res.sendfile('audio/speech'+id+'.mp3')
+    var path = 'audio/speech'+id+'.mp3';
+    res.sendfile(path)
 
   });
 
