@@ -39,7 +39,7 @@ Para rodar esse projeto é necessário ter instalados o Node js e o MySQL. Guias
   $ cp .env.ex .env
 ```
 
-* Crie uma conta gratuita no IBM Watson Text to Speech e em seguida clique em create para gerar a sua API KEY e a sua URL: https://cloud.ibm.com/catalog/services/text-to-speech
+* Crie uma conta gratuita no IBM Watson Text to Speech e em seguida clique em create para gerar a sua API KEY e a sua URL: https://cloud.ibm.com/catalog/services/text-to-speech . Você irá encontra-las na aba 'Manage'
 
 * Abra o arquivo .env e adicione as credenciais obtidas no passo anterior
 
