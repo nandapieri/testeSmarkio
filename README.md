@@ -26,7 +26,7 @@ Para rodar esse projeto é necessário ter instalados o Node js e o MySQL. Guias
 
 * Crie uma cópia deste repositório:
 ```
-  $ git clone https://github.com/nandapieri/desafioSmarkio
+  $ git clone https://github.com/nandapieri/testeSmarkio
 ```
 
 * Navegue até a pasta do projeto via terminal e baixe as dependências do projeto:
