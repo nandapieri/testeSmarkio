@@ -10,9 +10,6 @@ Desenvolver uma aplicação web em Node.js com banco de dados MySQL. A aplicaç�
 
 Criei a aplicação que cadastra e exibe os comentários com Node js e Express se conectando a um banco de dados MySQL. A interface foi feita de acordo com o mock up apresentado, utilizando PUG e CSS. Ao clicar no botão ouvir, há um pequeno delay antes do audio ser tocado.
 
-## Pontos de melhoria
-
-Atualização automática da página depois de clicar no botão de cadastrar um novo comentário nem sempre funciona.
 
 ## Demonstração
 
