@@ -29,13 +29,15 @@ router.get('/', (req, res) => {
 //pagina inicial do desafio
 router.get('/desafio', (req, res) => {
   //busca a lista de comentários no banco de dados para exibir
-  const Comentario = require('../models/comentario');
-  const comentarios = Comentario.findAll({ order: [['id', 'DESC']] })
+  var models = require('../models');
+  var Comentarios = models.Comentarios;
+  //const Comentario = require('../models/comentario');
+  const comentarios = Comentarios.findAll({ order: [['id', 'DESC']] })
     .then((comentarios) => {
       res.render('desafio', { title: 'Comentarios', comentarios });
       //console.log(Comentario.findAll({ order: [['id', 'DESC']] }));
     })
-    .catch(() => { res.send('Sorry! Something went wrong.'); });
+    .catch((err) => { res.send('Sorry! Something went wrong. '+err); });
   });
 
 var dialog = require('dialog');
@@ -53,8 +55,9 @@ router.post('/',
       //verifica se a quantidade de caracteres digitada cabe no campo do banco de dados
       if (str.length <= 260) {
         //adiciona o comentario no banco de dados
-        const Comentario = require('../models/comentario');
-        const resultadoCreate = Comentario.create(req.body).then( () => {
+        var models = require('../models');
+        var Comentarios = models.Comentarios;
+        const resultadoCreate = Comentarios.create(req.body).then( () => {
           //recarrega a pagina inicial depois de adicionar o comentario
           res.redirect('/desafio');
           }
@@ -86,7 +89,7 @@ router.post("/speech", async function(req, res) {
      console.log("req: "+input);
      const result = await watson.synthesize_audio(input, path)
     }
-    
+
    //manda a resposta do POST
    var returnData = {};
    fs.readFile(path, function(err, file){
